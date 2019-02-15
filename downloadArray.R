@@ -1,7 +1,6 @@
 
 require(downloader)
 my.path="/pfs/out"
-my.path="/pfs/out"
 
 ftpdir <- "ftp://ftp.ebi.ac.uk//pub/databases/microarray/data/experiment/MTAB/E-MTAB-783/"
 myfn <- file.path(my.path, "celfile_timestamp.RData")
@@ -40,3 +39,14 @@ dimnames(celfile.timestamp) <- list(celfn, c("file.day", "file.hour"))
 # unlink(file.path(my.path, "dwl"), recursive=TRUE)
 write.csv(celfile.timestamp, file=file.path(my.path, "celfile_timestamp.csv"))
 
+
+## download sample information
+message("Download sample information")
+myfn <- file.path(my.path, "gdsc_ge_sampleinfo.txt")
+  dir.create(file.path(my.path, "dwl"), showWarnings=FALSE, recursive=TRUE)
+  dwl.status <- download.file(url=sprintf("%s/E-MTAB-783.sdrf.txt", ftpdir), destfile=file.path(my.path, "dwl", "E-MTAB-783.sdrf.txt"), quiet=TRUE)
+  if(dwl.status != 0) { stop("Download failed, please rerun the pipeline!") }
+  file.copy(from=file.path(my.path, "dwl", "E-MTAB-783.sdrf.txt"), to=myfn)
+}
+
+ unlink(file.path(my.path, "dwl"), recursive=T)
