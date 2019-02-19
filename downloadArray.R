@@ -43,10 +43,9 @@ write.csv(celfile.timestamp, file=file.path(my.path, "celfile_timestamp.csv"))
 ## download sample information
 message("Download sample information")
 myfn <- file.path(my.path, "gdsc_ge_sampleinfo.txt")
-  dir.create(file.path(my.path, "dwl"), showWarnings=FALSE, recursive=TRUE)
-  dwl.status <- download.file(url=sprintf("%s/E-MTAB-783.sdrf.txt", ftpdir), destfile=file.path(my.path, "dwl", "E-MTAB-783.sdrf.txt"), quiet=TRUE)
-  if(dwl.status != 0) { stop("Download failed, please rerun the pipeline!") }
-  file.copy(from=file.path(my.path, "dwl", "E-MTAB-783.sdrf.txt"), to=myfn)
-}
+dir.create(file.path(my.path, "dwl"), showWarnings=FALSE, recursive=TRUE)
+dwl.status <- download.file(url=sprintf("%s/E-MTAB-783.sdrf.txt", ftpdir), destfile=file.path(my.path, "dwl", "E-MTAB-783.sdrf.txt"), quiet=TRUE)
+if(dwl.status != 0) { stop("Download failed, please rerun the pipeline!") }
+file.copy(from=file.path(my.path, "dwl", "E-MTAB-783.sdrf.txt"), to=myfn)
 
  unlink(file.path(my.path, "dwl"), recursive=T)
